@@ -1,0 +1,257 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CORE // Arnold Environment Monitor</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<div class="app-container">
+
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon">C</div>
+            <div>
+                <h2>CORE</h2>
+                <span>ENVIRONMENT SYSTEM</span>
+            </div>
+        </div>
+
+        <div class="sidebar-line"></div>
+
+        <div class="side-section">MAIN MENU</div>
+
+        <a href="#overview" class="nav-link active">
+            <span>▦</span> Dashboard
+        </a>
+
+        <a href="#analytics" class="nav-link">
+            <span>⌁</span> Analytics
+        </a>
+
+        <a href="#history" class="nav-link">
+            <span>▤</span> History
+        </a>
+
+        <div class="sidebar-line"></div>
+
+        <div class="side-section">SYSTEM</div>
+
+        <a href="/change-wifi" class="nav-link">
+            <span>⌘</span> WiFi Manager
+        </a>
+
+        <div class="sidebar-bottom">
+            <div class="system-indicator">
+                <span class="status-dot"></span>
+                <div>
+                    <strong>ESP32 SYSTEM</strong>
+                    <small id="connectionText">CONNECTING...</small>
+                </div>
+            </div>
+            <div class="sidebar-footer">CORE SYSTEMS © 2026</div>
+        </div>
+    </aside>
+
+    <main class="main-content" id="overview">
+
+        <header class="topbar">
+            <div>
+                <div class="eyebrow">ARNOLD EUSALA / MONITORING</div>
+                <h1>Environment Dashboard</h1>
+            </div>
+
+            <div class="topbar-right">
+                <div class="live-badge">
+                    <span class="status-dot"></span>
+                    LIVE MONITORING
+                </div>
+                <div class="clock-box">
+                    <strong id="liveClock">--:--:--</strong>
+                    <small id="liveDate">Loading date...</small>
+                </div>
+            </div>
+        </header>
+
+        <section class="welcome-row">
+            <div>
+                <h2>System Overview</h2>
+                <p>Real-time temperature and humidity monitoring.</p>
+            </div>
+            <div class="updated-label">
+                LAST UPDATE <strong id="lastUpdate">Waiting for data...</strong>
+            </div>
+        </section>
+
+        <section class="sensor-grid">
+
+            <div class="sensor-card temperature-card">
+                <div class="sensor-card-top">
+                    <div class="sensor-label">TEMPERATURE</div>
+                    <div class="sensor-icon">°C</div>
+                </div>
+                <div class="sensor-value">
+                    <span id="temperatureValue">--.-</span>
+                    <small>°C</small>
+                </div>
+                <div class="sensor-description">Current temperature reading</div>
+                <div class="sensor-bottom">
+                    <span class="mini-indicator"></span>
+                    <span id="temperatureStatus">AWAITING SENSOR</span>
+                </div>
+            </div>
+
+            <div class="sensor-card humidity-card">
+                <div class="sensor-card-top">
+                    <div class="sensor-label">HUMIDITY</div>
+                    <div class="sensor-icon">%</div>
+                </div>
+                <div class="sensor-value">
+                    <span id="humidityValue">--.-</span>
+                    <small>%</small>
+                </div>
+                <div class="sensor-description">Current relative humidity</div>
+                <div class="sensor-bottom">
+                    <span class="mini-indicator"></span>
+                    <span id="humidityStatus">AWAITING SENSOR</span>
+                </div>
+            </div>
+
+        </section>
+
+        <section class="database-strip">
+            <div class="database-icon">▣</div>
+            <div class="database-info">
+                <strong>FIREBASE REALTIME DATABASE</strong>
+                <small>ESP32_Data / Live Sensor Records</small>
+            </div>
+            <div class="database-status">
+                <span class="status-dot" id="firebaseDot"></span>
+                <span id="firebaseStatus">INITIALIZING</span>
+            </div>
+        </section>
+
+        <section class="panel chart-panel" id="analytics">
+            <div class="panel-header">
+                <div>
+                    <div class="panel-kicker">DATA ANALYTICS</div>
+                    <h3>Environmental Trends</h3>
+                    <p>Temperature and humidity readings over time.</p>
+                </div>
+
+                <div class="chart-controls">
+                    <label for="dateFilter">SELECT DATE</label>
+                    <input type="date" id="dateFilter">
+                </div>
+            </div>
+
+            <div class="chart-legend">
+                <span><i class="legend-temp"></i> Temperature (°C)</span>
+                <span><i class="legend-humidity"></i> Humidity (%)</span>
+            </div>
+
+            <div class="chart-container">
+                <canvas id="sensorChart"></canvas>
+            </div>
+        </section>
+
+        <section class="panel history-panel" id="history">
+            <div class="panel-header history-header">
+                <div>
+                    <div class="panel-kicker">DATABASE RECORDS</div>
+                    <h3>Sensor History</h3>
+                    <p>Recorded temperature and humidity measurements.</p>
+                </div>
+                <div class="record-count">
+                    <strong id="recordCount">0</strong>
+                    <small>RECORDS</small>
+                </div>
+            </div>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>NO.</th>
+                            <th>DATE</th>
+                            <th>TIME</th>
+                            <th>TEMPERATURE</th>
+                            <th>HUMIDITY</th>
+                            <th>STATUS</th>
+                        </tr>
+                    </thead>
+                    <tbody id="historyBody">
+                        <tr>
+                            <td colspan="6" class="empty-state">
+                                Waiting for Firebase records...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <footer class="main-footer">
+            <span>CORE // ARNOLD EUSALA ENVIRONMENT MONITOR</span>
+            <span>ESP32 + DHT11 + FIREBASE</span>
+        </footer>
+
+    </main>
+
+    <aside class="relay-sidebar">
+        <div class="relay-heading">
+            <div class="panel-kicker">HARDWARE CONTROL</div>
+            <h3>Relay Control</h3>
+            <p>Manage connected relay modules.</p>
+        </div>
+
+        <div class="relay-card">
+            <div class="relay-card-top">
+                <div class="relay-icon">⚡</div>
+                <span class="relay-number">RELAY 01</span>
+            </div>
+            <h4>Relay One</h4>
+            <p>GPIO 26</p>
+            <div class="relay-state">
+                <span class="status-dot" id="relay1Dot"></span>
+                <strong id="relay1Status">OFFLINE</strong>
+            </div>
+            <button class="relay-button" id="relay1Button"
+                onclick="toggleRelay(1)">TURN ON</button>
+        </div>
+
+        <div class="relay-card">
+            <div class="relay-card-top">
+                <div class="relay-icon">⚡</div>
+                <span class="relay-number">RELAY 02</span>
+            </div>
+            <h4>Relay Two</h4>
+            <p>GPIO 27</p>
+            <div class="relay-state">
+                <span class="status-dot" id="relay2Dot"></span>
+                <strong id="relay2Status">OFFLINE</strong>
+            </div>
+            <button class="relay-button" id="relay2Button"
+                onclick="toggleRelay(2)">TURN ON</button>
+        </div>
+
+        <div class="relay-warning">
+            <strong>⚠ CONTROL NOTICE</strong>
+            <p>Relay commands are sent directly to the ESP32 through the local network.</p>
+        </div>
+
+        <div class="relay-footer">
+            <span class="status-dot"></span>
+            LOCAL ESP32 CONTROL
+        </div>
+    </aside>
+
+</div>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>
